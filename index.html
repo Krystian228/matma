@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Odejmowanko</title>
+  <meta name="description" content="Gra do nauki odejmowania w zakresie 30 dla dzieci.">
+  <meta name="theme-color" content="#6c5ce7">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon-192.png" type="image/png">
+  <link rel="apple-touch-icon" href="icons/icon-180.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Odejmowanko">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- WYBÓR GRACZA -->
+  <section id="screen-players" class="screen">
+    <div class="mascot big" aria-hidden="true">🦊</div>
+    <h1>Odejmowanko</h1>
+    <p class="subtitle">Kto dziś gra?</p>
+
+    <div class="player-list" id="player-list"></div>
+
+    <form class="card add-player" id="form-add">
+      <label for="input-name">Nowy gracz – wpisz swoje imię:</label>
+      <div class="add-row">
+        <input id="input-name" type="text" maxlength="16" autocomplete="off" placeholder="np. Ola" required>
+        <button class="btn btn-primary" type="submit">Dodaj</button>
+      </div>
+    </form>
+
+    <button class="btn btn-secondary" id="btn-ranking-players">🏆 Ranking</button>
+  </section>
+
+  <!-- EKRAN STARTOWY GRACZA -->
+  <section id="screen-home" class="screen">
+    <header class="topbar">
+      <button class="btn-icon" id="btn-switch" aria-label="Zmień gracza">👥</button>
+      <h2 class="topbar-title" id="home-hello">Cześć!</h2>
+      <button class="avatar-btn" id="home-avatar" aria-label="Moje zwierzaki"></button>
+    </header>
+
+    <div class="card stats">
+      <div><span class="stat-value" id="home-points">0</span><span class="stat-label">punktów</span></div>
+      <div><span class="stat-value" id="home-place">–</span><span class="stat-label">miejsce</span></div>
+      <div><span class="stat-value" id="home-best">0</span><span class="stat-label">najlepsza seria</span></div>
+    </div>
+
+    <div class="level-box card">
+      <div class="level-name" id="home-level-name"></div>
+      <div class="progress"><div class="progress-bar" id="home-progress"></div></div>
+      <div class="level-next" id="home-level-next"></div>
+    </div>
+
+    <button class="btn btn-primary btn-big" id="btn-start">▶ Graj!</button>
+    <p class="home-animals" id="home-animals"></p>
+
+    <div class="card rewards">
+      <h3>🎁 Nagrody</h3>
+      <div id="rewards-list"></div>
+    </div>
+
+    <div class="card rules">
+      <h3>⭐ Jak zdobywać punkty?</h3>
+      <p class="muted">Liczą się tylko odpowiedzi dobre <strong>za pierwszym razem</strong> i bez podpowiedzi.</p>
+      <table id="rules-table"></table>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" id="btn-badges">🏅 Odznaki</button>
+      <button class="btn btn-secondary" id="btn-animals">🐾 Zwierzaki</button>
+      <button class="btn btn-secondary" id="btn-ranking">🏆 Ranking</button>
+    </div>
+  </section>
+
+  <!-- EKRAN GRY -->
+  <section id="screen-game" class="screen">
+    <header class="topbar">
+      <button class="btn-icon" id="btn-home" aria-label="Wróć do menu">🏠</button>
+      <div class="pill">✅ <span id="game-correct">0</span> · ⭐ +<span id="game-round-pts">0</span></div>
+      <div class="pill" id="streak-pill">🔥 <span id="game-streak">0</span></div>
+    </header>
+
+    <div class="round-dots" id="round-dots"></div>
+
+    <div class="mascot-row">
+      <div class="mascot" id="mascot" aria-hidden="true">🦊</div>
+      <div class="bubble" id="bubble">Ile to będzie?</div>
+    </div>
+
+    <div class="task card" id="task">
+      <span id="num-a">0</span>
+      <span class="op">−</span>
+      <span id="num-b">0</span>
+      <span class="op">=</span>
+      <span class="answer" id="answer">?</span>
+    </div>
+
+    <div class="hint" id="hint" hidden></div>
+
+    <div class="keypad" id="keypad">
+      <button class="key" data-key="1">1</button>
+      <button class="key" data-key="2">2</button>
+      <button class="key" data-key="3">3</button>
+      <button class="key" data-key="4">4</button>
+      <button class="key" data-key="5">5</button>
+      <button class="key" data-key="6">6</button>
+      <button class="key" data-key="7">7</button>
+      <button class="key" data-key="8">8</button>
+      <button class="key" data-key="9">9</button>
+      <button class="key key-del" data-key="del" aria-label="Usuń">⌫</button>
+      <button class="key" data-key="0">0</button>
+      <button class="key key-ok" data-key="ok" aria-label="Sprawdź">✔</button>
+    </div>
+
+    <button class="btn btn-ghost" id="btn-hint">💡 Podpowiedź</button>
+  </section>
+
+  <!-- PODSUMOWANIE RUNDY -->
+  <section id="screen-summary" class="screen">
+    <div class="mascot big" id="summary-mascot" aria-hidden="true">🦊</div>
+    <h2 id="summary-title">Brawo!</h2>
+    <div class="stars" id="summary-stars"></div>
+    <div class="card summary-card">
+      <p>Dobre odpowiedzi: <strong id="summary-correct">0</strong> / 10</p>
+      <p>Zdobyte punkty: <strong id="summary-points">+0</strong></p>
+      <p id="summary-next-reward" class="muted"></p>
+    </div>
+    <div id="summary-rewards"></div>
+    <div id="summary-badges"></div>
+    <div id="summary-levelup" class="levelup" hidden></div>
+    <button class="btn btn-primary btn-big" id="btn-again">🔁 Jeszcze raz!</button>
+    <button class="btn btn-secondary" id="btn-summary-home">🏠 Menu</button>
+  </section>
+
+  <!-- ODZNAKI -->
+  <section id="screen-badges" class="screen">
+    <header class="topbar">
+      <button class="btn-icon" id="btn-badges-back" aria-label="Wróć">⬅</button>
+      <h2 class="topbar-title">Moje odznaki</h2>
+      <span></span>
+    </header>
+    <div class="badges-grid" id="badges-grid"></div>
+    <button class="btn btn-ghost small" id="btn-reset">Zacznij od nowa</button>
+  </section>
+
+  <!-- ZWIERZAKI -->
+  <section id="screen-animals" class="screen">
+    <header class="topbar">
+      <button class="btn-icon" id="btn-animals-back" aria-label="Wróć">⬅</button>
+      <h2 class="topbar-title">🐾 Zwierzaki</h2>
+      <span></span>
+    </header>
+    <p class="subtitle">Co 10 dobrze rozwiązanych zadań dostajesz nowego przyjaciela! Dotknij go, żeby był Twoim awatarem.</p>
+    <div class="animals-grid" id="animals-grid"></div>
+  </section>
+
+  <!-- RANKING -->
+  <section id="screen-ranking" class="screen">
+    <header class="topbar">
+      <button class="btn-icon" id="btn-ranking-back" aria-label="Wróć">⬅</button>
+      <h2 class="topbar-title">🏆 Ranking</h2>
+      <span></span>
+    </header>
+    <div class="podium" id="podium"></div>
+    <ol class="ranking" id="ranking-list"></ol>
+  </section>
+
+  <div id="confetti" aria-hidden="true"></div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <!-- Okno nagrody -->
+  <div class="modal" id="reward-modal" hidden>
+    <div class="modal-card">
+      <div class="reward-big" id="reward-modal-icon">🎁</div>
+      <h2>Nagroda odblokowana!</h2>
+      <p class="reward-modal-name" id="reward-modal-name"></p>
+      <p class="muted">Pokaż to rodzicowi! 🎉</p>
+      <button class="btn btn-primary" id="reward-modal-ok">Hura!</button>
+    </div>
+  </div>
+
+  <!-- Okno nowego zwierzaka -->
+  <div class="modal" id="animal-modal" hidden>
+    <div class="modal-card">
+      <img class="animal-gif" id="animal-modal-gif" alt="">
+      <h2 id="animal-modal-title">Nowy przyjaciel!</h2>
+      <p class="reward-modal-name" id="animal-modal-name"></p>
+      <p class="muted" id="animal-modal-sub"></p>
+      <button class="btn btn-primary" id="animal-modal-ok">Super!</button>
+      <button class="btn btn-secondary modal-second" id="animal-modal-avatar">⭐ Ustaw jako mój awatar</button>
+    </div>
+  </div>
+
+  <script src="db.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Odejmowanko – nauka odejmowania do 30",
+  "short_name": "Odejmowanko",
+  "description": "Gra do nauki odejmowania w zakresie 30. Zbieraj punkty i odznaki!",
+  "lang": "pl",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#a29bfe",
+  "theme_color": "#6c5ce7",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
