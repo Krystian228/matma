@@ -8,13 +8,13 @@ const LEGACY_KEY = 'odejmowanko-v1';        // stary zapis z wersji dla jednego 
 
 // Punkty przyznawane są za całą rundę – liczą się tylko odpowiedzi
 // dobre za pierwszym razem i bez podpowiedzi. Runda trwa ok. 1,5 min,
-// średnio ~3 pkt za rundę → 200 pkt to ok. 1,5 godziny nauki.
+// średnio ~5 pkt za rundę → 200 pkt to ok. 1 godzina nauki.
 const ROUND_POINTS = [
-  { min: 10, pts: 5, label: '10 / 10' },
-  { min: 9,  pts: 4, label: '9 / 10' },
-  { min: 8,  pts: 3, label: '8 / 10' },
-  { min: 6,  pts: 2, label: '6–7 / 10' },
-  { min: 4,  pts: 1, label: '4–5 / 10' },
+  { min: 10, pts: 10, label: '10 / 10' },
+  { min: 9,  pts: 8,  label: '9 / 10' },
+  { min: 8,  pts: 6,  label: '8 / 10' },
+  { min: 6,  pts: 4,  label: '6–7 / 10' },
+  { min: 4,  pts: 2,  label: '4–5 / 10' },
   { min: 0,  pts: 0, label: 'mniej niż 4' },
 ];
 const roundPoints = correct => ROUND_POINTS.find(r => correct >= r.min).pts;
@@ -110,6 +110,26 @@ const ANIMALS = [
   { id: 'leniwiec',        name: 'Leniwiec Leon' },
   { id: 'panda',           name: 'Panda Zjeżdżalska' },
   { id: 'kozka',           name: 'Kózka Skoczka' },
+  { id: 'kapibara-mandarynka', name: 'Kapibara Mandarynka' },
+  { id: 'jezyk',           name: 'Jeżyk Kolczyk' },
+  { id: 'kotek-psotek',    name: 'Kotek Psotek' },
+  { id: 'foczka',          name: 'Foczka Śnieżka' },
+  { id: 'corgi',           name: 'Corgi Listek' },
+  { id: 'kapibara-prysznic', name: 'Kapibara pod Prysznicem' },
+  { id: 'koala',           name: 'Koala Przytulanka' },
+  { id: 'kaczuszka',       name: 'Kaczuszka Biegaczka' },
+  { id: 'kotki-blizniaki', name: 'Kotki Bliźniaki' },
+  { id: 'szynszyle',       name: 'Tańczące Szynszyle' },
+  { id: 'slonik',          name: 'Słonik Trąbalski' },
+  { id: 'kapibara-kapitan', name: 'Kapibara Kapitan' },
+  { id: 'swinka',          name: 'Świnka Morska Fistaszek' },
+  { id: 'papuga',          name: 'Papuga Imprezka' },
+  { id: 'szczeniak',       name: 'Szczeniak Złotko' },
+  { id: 'wiewiorka',       name: 'Wiewiórka Orzeszek' },
+  { id: 'piskle',          name: 'Pisklę Okruszek' },
+  { id: 'fenki',           name: 'Fenki z Maluszkiem' },
+  { id: 'lis',             name: 'Lis Skoczek' },
+  { id: 'piesek-na-zolwiu', name: 'Piesek na Żółwiu' },
 ].map(a => ({ ...a, gif: `gifs/${a.id}.gif` }));
 const animalById = id => ANIMALS.find(a => a.id === id);
 
